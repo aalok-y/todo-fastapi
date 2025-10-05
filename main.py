@@ -53,4 +53,3 @@ def delete_todo(todo_id: int):
             todos.pop(idx)
             return {"detail": "Deleted"}
     raise HTTPException(status_code=404, detail="Todo not found")
-
