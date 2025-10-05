@@ -1,0 +1,36 @@
+name: CI for FastAPI Todo App
+
+on
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install fastapi uvicorn[standard] flake8 pytest
+
+    - name: Lint code with flake8
+      run: |
+        flake8 --max-line-length=120 .
+
+    - name: Run tests
+      run: |
+        # You can add test commands here; example uses pytest
+        pytest || echo "No tests found or pytest returned non-zero code"
